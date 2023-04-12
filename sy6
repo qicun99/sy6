@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WebGIS应用</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" href="https://js.arcgis.com/4.20/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.20/"></script>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+      #header {
+        background-color: #f8f8f8;
+        height: 50px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 999;
+      }
+      #basemaps {
+        background-color: #f8f8f8;
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        top: 50px;
+        left: 0;
+        z-index: 999;
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="header"></div>
+    <div id="viewDiv"></div>
+    <div id="basemaps"></div>
+  </body>
+</html>
+require([
+  "esri/Map",
+  "esri/views/MapView",
+  "esri/widgets/ScaleBar",
+  "esri/widgets/Legend",
+  "esri/widgets/Search",
+  "esri/widgets/LayerList",
+], function (Map, MapView, ScaleBar, Legend, Search, LayerList) {
+  var map = new Map({
+    basemap: "topo-vector", // 设置底图为矢量地图
+    layers: [
+      {
+        url: "https://services.arcgis.com/P3ePLMYs2RVChkJx/ArcGIS/rest/services/World_Cities/FeatureServer", // 添加一个ArcGIS Online的专题图层
+        title: "全球城市",
+        visible: true,
+      },
+    ],
+  });
+
+  var view = new MapView({
+    container: "viewDiv",
+    map: map,
+    zoom: 3,
+    center: [0, 0],
+  });
+
+  var scaleBar = new ScaleBar({
+    view: view,
+    unit: "metric",
+  });
+  view.ui.add(scaleBar, {
+    position: "bottom-left",
+  });
+
+  var legend = new Legend({
+    view: view,
+    container: "header",
+  });
+
+  var search = new Search({
+    view: view,
+    container: "header",
+  });
+
+  var layerList = new LayerList({
+    view: view,
+    container: "basemaps",
+  });
+});
+var scaleBar = new ScaleBar({
+  view: view,
+  unit: "metric",
+});
+view.ui.add(scaleBar, {
+  position: "bottom-left",
+});
+
+var legend = new Legend({
+  view: view,
+  container: "header",
+});
+
+var search = new Search({
+  view: view,
+  container: "header",
+});
+
+var layerList = new LayerList({
+  view: view,
+  container: "basemaps",
+});
